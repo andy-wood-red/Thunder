@@ -31,7 +31,7 @@ add_executable(${TEST_RUNNER_NAME}
    test_hex2strserialization.cpp
    test_filesystem.cpp
    test_frametype.cpp
-   #test_hash.cpp
+   test_hash.cpp
    #test_ipc.cpp
    #test_ipcclient.cpp
    test_iso639.cpp
@@ -111,6 +111,7 @@ target_link_libraries(${TEST_RUNNER_NAME}
     WPEFrameworkCore
     WPEFrameworkCOM
     WPEFrameworkWebSocket
+    WPEFrameworkCryptalgo
 )
 
 install(
