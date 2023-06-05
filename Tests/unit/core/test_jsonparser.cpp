@@ -928,6 +928,7 @@ namespace Tests {
         data.keyToPutInJson = "\"" + data.key + "\"";
         data.value = "\n solution \n for \n string \n serialization\n";
         data.valueToPutInJson = "\"" + data.value + "\"";
+
         ExecutePrimitiveJsonTest<Core::JSON::String>(data, true, [&data](const Core::JSON::String& v) {
             EXPECT_EQ(data.value, v.Value());
         });
@@ -1487,48 +1488,82 @@ namespace Tests {
 
     TEST(JSONParser, VariantContainerWithElements)
     {
-        std::list<std::pair<string, WPEFramework::Core::JSON::Variant>> elements;
+        const std::string Key1("Key1");
+        const std::string Key2("Key2");
+        const std::string Key3("Key3");
 
-        WPEFramework::Core::JSON::Variant val1(10);
-        WPEFramework::Core::JSON::Variant val2(20);
-        WPEFramework::Core::JSON::Variant val3(30);
+        const WPEFramework::Core::JSON::Variant val1(10);
+        const WPEFramework::Core::JSON::Variant val2(20);
+        const WPEFramework::Core::JSON::Variant val3(30);
 
-        elements.push_back(std::pair<std::string, WPEFramework::Core::JSON::Variant>("Key1", val1));
-        elements.push_back(std::pair<std::string, WPEFramework::Core::JSON::Variant>("Key2", val2));
-        elements.push_back(std::pair<std::string, WPEFramework::Core::JSON::Variant>("Key3", val3));
+        std::unordered_map<string, WPEFramework::Core::JSON::Variant> elements = {{Key1, val1}, {Key2, val2}, {Key3, val3}};
+
+        EXPECT_EQ(elements.size(), 3);
 
         WPEFramework::Core::JSON::VariantContainer container(elements);
 
         WPEFramework::Core::JSON::VariantContainer::Iterator it = container.Variants();
+
+        EXPECT_FALSE(it.IsValid());
         EXPECT_TRUE(it.Next());
-        EXPECT_TRUE(container.HasLabel("Key1"));
         EXPECT_TRUE(it.IsValid());
+        EXPECT_TRUE(container.HasLabel(Key1.c_str()));
+        EXPECT_TRUE(it.Next());
+        EXPECT_TRUE(it.IsValid());
+        EXPECT_TRUE(container.HasLabel(Key2.c_str()));
+        EXPECT_TRUE(it.Next());
+        EXPECT_TRUE(it.IsValid());
+        EXPECT_TRUE(container.HasLabel(Key3.c_str()));
+        EXPECT_FALSE(it.Next());
+        EXPECT_FALSE(it.IsValid());
     }
 
     TEST(JSONParser, VariantContainerIterator)
     {
-        std::list<std::pair<string, WPEFramework::Core::JSON::Variant>> elements;
+        const std::string Key1("Key1");
+        const std::string Key2("Key2");
+        const std::string Key3("Key3");
 
-        WPEFramework::Core::JSON::Variant val1(10);
-        WPEFramework::Core::JSON::Variant val2(20);
-        WPEFramework::Core::JSON::Variant val3(30);
+        const WPEFramework::Core::JSON::Variant val1(10);
+        const WPEFramework::Core::JSON::Variant val2(20);
+        const WPEFramework::Core::JSON::Variant val3(30);
 
-        elements.push_back(std::pair<std::string, WPEFramework::Core::JSON::Variant>("Key1", val1));
-        elements.push_back(std::pair<std::string, WPEFramework::Core::JSON::Variant>("Key2", val2));
-        elements.push_back(std::pair<std::string, WPEFramework::Core::JSON::Variant>("Key3", val3));
+        std::unordered_map<string, WPEFramework::Core::JSON::Variant> elements = {{Key1, val1}, {Key2, val2}, {Key3, val3}};
 
-        WPEFramework::Core::JSON::VariantContainer::Iterator iterator;
-        WPEFramework::Core::JSON::VariantContainer::Iterator it(elements);
-        WPEFramework::Core::JSON::VariantContainer::Iterator itCopy(iterator);
-        WPEFramework::Core::JSON::VariantContainer::Iterator iteratorCopy = itCopy;
+        EXPECT_EQ(elements.size(),3);
 
-        EXPECT_TRUE(it.Next());
-        EXPECT_TRUE(it.IsValid());
-        EXPECT_STREQ(it.Label(),"Key1");
-        EXPECT_STREQ(it.Current().String().c_str(),"10");
+        // Internally creates a new unorderd_map
+        WPEFramework::Core::JSON::VariantContainer container(elements);
 
-        it.Reset();
-        EXPECT_FALSE(it.IsValid());
+        // No additional internal unordered map
+        WPEFramework::Core::JSON::VariantContainer::Iterator it1(elements);
+
+        // No additional internal unordered map
+        WPEFramework::Core::JSON::VariantContainer::Iterator it2 = container.Variants();
+
+        // Both iterators do not point to the same data, but all should exist
+
+        EXPECT_FALSE(it1.IsValid());
+        EXPECT_TRUE(it1.Next());
+        EXPECT_TRUE(container.HasLabel(it1.Label()));
+        EXPECT_TRUE(it1.Next());
+        EXPECT_TRUE(container.HasLabel(it1.Label()));
+        EXPECT_TRUE(it1.Next());
+        EXPECT_TRUE(container.HasLabel(it1.Label()));
+
+        it1.Reset();
+        EXPECT_FALSE(it1.IsValid());
+
+        EXPECT_FALSE(it2.IsValid());
+        EXPECT_TRUE(it2.Next());
+        EXPECT_TRUE(container.HasLabel(it2.Label()));
+        EXPECT_TRUE(it2.Next());
+        EXPECT_TRUE(container.HasLabel(it2.Label()));
+        EXPECT_TRUE(it2.Next());
+        EXPECT_TRUE(container.HasLabel(it2.Label()));
+
+        it2.Reset();
+        EXPECT_FALSE(it2.IsValid());
     }
 
     TEST(JSONParser, simpleSet)

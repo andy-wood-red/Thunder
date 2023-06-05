@@ -4465,14 +4465,15 @@ namespace Core {
             VariantContainer(const Elements& values)
                 : Container()
             {
-                Elements::const_iterator index(values.begin());
+                for (auto  begin = values.begin(), end = values.end(), it = begin; it != end; it++) {
+                    auto result = _elements.emplace(std::piecewise_construct,
+                                                    std::forward_as_tuple(it->first),
+                                                    std::forward_as_tuple(it->second)
+                                                   );
 
-                while (index != values.end()) {
-                    Elements::iterator index = _elements.emplace(std::piecewise_construct,
-                        std::forward_as_tuple(index->first),
-                        std::forward_as_tuple(index->second)).first;
-                    Container::Add(index->first.c_str(), &(index->second));
-                    index++;
+                    if (result.second) {
+                        Container::Add(result.first->first.c_str(), &(result.first->second));
+                    }
                 }
             }
 
