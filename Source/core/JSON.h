@@ -2009,7 +2009,7 @@ namespace Core {
                     offset = 0;
                     _flagsAndCounters |= (_value == IElement::NullTag ? NullBit|SetBit : SetBit);
 
-                    if ((_flagsAndCounters & QuoteFoundBit) == 0) {
+                    if ((_flagsAndCounters & QuoteFoundBit) == 0 && (_flagsAndCounters & QuotedSerializeBit) == 0) {
                         // Right-trim the non-string value, it's always left-trimmed already
                         _value.erase(std::find_if(_value.rbegin(), _value.rend(), [](const unsigned char ch) { return (!std::isspace(ch)); }).base(), _value.end());
                     }
