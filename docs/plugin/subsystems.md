@@ -1,0 +1,81 @@
+Thunder provides "Subsystems" which are abstract categories of functionality (Network, Graphics, Internet) that can be marked as up/down by plugins.
+
+- Plugins can then have preconditions on these subsystems (e.g. prevent starting the browser plugin until internet is available).
+- Works ok in a platform where everything is implemented in Thunder, less so in RDK where we need to contend with platform/system dependencies.
+- Subsystems have been not widely used in RDK as a result.
+
+
+<h3>Supported SubSystems</h3>
+
+In the header file *ISubSystem.h* the following enumerated types can be found which represent the various subsystems supported by Thunder:
+
+        enum subsystem : uint32_t {
+            PLATFORM = 0, // platform is available.
+            SECURITY, // A security system can validate external requests (JSONRPC/WebRequest)
+            NETWORK, // Network connectivity has been established.
+            IDENTIFIER, // System identification has been accomplished.
+            GRAPHICS, // Graphics screen EGL is available.
+            INTERNET, // Network connectivity to the outside world has been established.
+            LOCATION, // Location of the device has been set.
+            TIME, // Time has been synchronized.
+            PROVISIONING, // Provisioning information is available.
+            DECRYPTION, // Decryption functionality is available.
+            WEBSOURCE, // Content exposed via a local web server is available.
+            STREAMING, // Content can be streamed.
+            BLUETOOTH, // The bluetooth subsystem is up and running.
+            END_LIST,
+
+            // Also define a "negative" value.
+            NEGATIVE_START = 0x80000000,
+            NOT_PLATFORM = NEGATIVE_START, // platform is NOT available.
+            NOT_SECURITY, // A security system can validate external requests (JSONRPC/WebRequest)
+            NOT_NETWORK, // Network connectivity has NOT been established.
+            NOT_IDENTIFIER, // System identification has NOT been accomplished.
+            NOT_GRAPHICS, // Graphics screen EGL is NOT available.
+            NOT_INTERNET, // Network connectivity to the outside world has been established.
+            NOT_LOCATION, // Location of the device has NOT been set.
+            NOT_TIME, // Time has been NOT synchronized.
+            NOT_PROVISIONING, // Provisioning information is NOT available.
+            NOT_DECRYPTION, // Decryption functionality is NOT available.
+            NOT_WEBSOURCE, // Content exposed via a local web server is NOT available.
+            NOT_STREAMING, // Content can NOT be streamed.
+            NOT_BLUETOOTH // The Bluetooth communication system is NOT available.
+        };
+
+
+<h3>SubSystem Plugin Interface - to set and get</h3>
+
+In order to indicate and check for changes to subsystems, the plugin supports the following COM interface:
+
+        // Events setter and getters.
+        virtual void Set(const subsystem type, Core::IUnknown* information) = 0;
+        virtual const Core::IUnknown* Get(const subsystem type) const = 0;
+        virtual bool IsActive(const subsystem type) const = 0;
+
+<h3>Plugin Startup</h3>
+Each plugin config can add dependencies on subsytems being available before starting. This is achieved with the following sort of entry in the plugin config file:
+
+        "precondition":[
+            "Platform"
+        ]
+
+The string format and supported susbsytems to add as preconditions:
+
+Susbsystem strings:
+
+        PLATFORM, _TXT("Platform")
+        NETWORK, _TXT("Network")
+        SECURITY, _TXT("Security")
+        IDENTIFIER, _TXT("Identifier")
+        INTERNET, _TXT("Internet")
+        LOCATION, _TXT("Location")
+        TIME, _TXT("Time")
+        PROVISIONING, _TXT("Provisioning")
+        DECRYPTION, _TXT("Decryption")
+        GRAPHICS, _TXT("Graphics")
+        WEBSOURCE, _TXT("WebSource")
+        STREAMING, _TXT("Streaming")
+        BLUETOOTH, _TXT("Bluetooth")       
+
+
+
