@@ -1,7 +1,7 @@
 Thunder provides "Subsystems" which are abstract categories of functionality (Network, Graphics, Internet) that can be marked as up/down by plugins.
 
 - Plugins can then have preconditions on these subsystems (e.g. prevent starting the browser plugin until internet is available).
-- Works ok in a platform where everything is implemented in Thunder, less so in RDK where we need to contend with platform/system dependencies.
+- Support for susbsytems tends to works better on a platform where everything is implemented in Thunder, less so in RDK where there is a need to contend with platform/system dependencies.
 - Subsystems have been not widely used in RDK as a result.
 
 
