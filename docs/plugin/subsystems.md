@@ -59,9 +59,7 @@ Each plugin config can add dependencies on subsytems being available before star
             "Platform"
         ]
 
-The string format and supported susbsytems to add as preconditions:
-
-Susbsystem strings:
+The Susbsystem string format and supported susbsytems to add as preconditions:
 
         PLATFORM, _TXT("Platform")
         NETWORK, _TXT("Network")
