@@ -9,7 +9,7 @@ Thunder provides "Subsystems" which are abstract categories of functionality (Ne
 
 In the header file *ISubSystem.h* the following enumerated types can be found which represent the various subsystems supported by Thunder:
 
-```
+```cpp
         enum subsystem : uint32_t {
             PLATFORM = 0, // platform is available.
             SECURITY, // A security system can validate external requests (JSONRPC/WebRequest)
@@ -49,7 +49,7 @@ In the header file *ISubSystem.h* the following enumerated types can be found wh
 
 In order to indicate and check for changes to subsystems, the plugin supports the following COM interface:
 
-```
+```cpp
         // Events setter and getters.
         virtual void Set(const subsystem type, Core::IUnknown* information) = 0;
         virtual const Core::IUnknown* Get(const subsystem type) const = 0;
@@ -59,7 +59,7 @@ In order to indicate and check for changes to subsystems, the plugin supports th
 <h3>Plugin Startup</h3>
 Each plugin config can add dependencies on subsytems being available before starting. This is achieved with the following sort of entry in the plugin config file:
 
-```
+```json
         "precondition":[
             "Platform"
         ]
