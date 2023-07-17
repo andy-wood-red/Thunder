@@ -68,6 +68,50 @@ void TestPlugin::Initialize(PluginHost::IShell* service) {
 }
 ```
 
+The Get() API call will return a type consistent with the subsystem type passed as a parameter for example if the type was INTERNET:
+'''cpp
+Internet* _internet;
+
+// where
+        class Internet : public PluginHost::ISubSystem::IInternet {
+        public:
+            Internet(const Internet&) = delete;
+            Internet& operator=(const Internet&) = delete;
+
+            Internet()
+                : _ipAddress()
+            {
+            }
+            ~Internet() override = default;
+
+        public:
+            BEGIN_INTERFACE_MAP(Internet)
+            INTERFACE_ENTRY(PluginHost::ISubSystem::IInternet)
+            END_INTERFACE_MAP
+
+        public:
+            string PublicIPAddress() const override;
+            PluginHost::ISubSystem::IInternet::network_type NetworkType() const override;
+
+            bool Set(const PluginHost::ISubSystem::IInternet* info);
+            inline bool Set(const string& ip)
+            {
+                bool result(false);
+                if (_ipAddress != ip) {
+                    _ipAddress = ip;
+
+                    result = true;
+                }
+                return result;
+            }
+
+        private:
+            string _ipAddress;
+        };
+// All types defined in Thunder/Source/WPEFramework/SystemInfo.h
+'''
+
+
 <h3>Plugin Startup</h3>
 Each plugin config can add dependencies on subsytems being available before starting. This is achieved with the following sort of entry in the plugin config file:
 
