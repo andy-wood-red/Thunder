@@ -113,7 +113,7 @@ Internet* _internet;
 // All types defined in Thunder/Source/WPEFramework/SystemInfo.h
 
 ```
-The IsActive call simply reurns true if the susbsytem exists in a list of active subsystems. 
+The IsActive() call simply returns true if the susbsytem exists in a list of active subsystems. 
 
 <h3>Plugin Startup</h3>
 Each plugin config can add dependencies on subsytems being available before starting. This is achieved with the following sort of entry in the plugin config file:
@@ -123,6 +123,8 @@ Each plugin config can add dependencies on subsytems being available before star
             "Platform"
         ]
 ```
+
+Preconditions can also be set in the plugin metadata:
 
 The Susbsystem string format and supported susbsytems to add as preconditions:
 
