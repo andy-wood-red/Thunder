@@ -124,7 +124,7 @@ Each plugin config can add dependencies on subsytems being available before star
         ]
 ```
 
-Preconditions can also be set in the plugin metadata:
+Preconditions can also be set in the plugin metadata, see [config](config.md) for more details on plugin config options.
 
 The Susbsystem string format and supported susbsytems to add as preconditions:
 
