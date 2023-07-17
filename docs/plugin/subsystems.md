@@ -56,6 +56,18 @@ In order to indicate and check for changes to subsystems, the plugin supports th
         virtual bool IsActive(const subsystem type) const = 0;
 ```
 
+In order to use these methods they should be used in a way similar to the following:
+```cpp
+void TestPlugin::Initialize(PluginHost::IShell* service) {
+    _service = service;
+    // Other init code...
+    PluginHost::ISubSystem* subSystems = _service->SubSystems();
+    if (subSystems != nullptr) {
+        subSystems->Set(PluginHost::ISubSystem::GRAPHICS, nullptr);
+    }
+}
+```
+
 <h3>Plugin Startup</h3>
 Each plugin config can add dependencies on subsytems being available before starting. This is achieved with the following sort of entry in the plugin config file:
 
