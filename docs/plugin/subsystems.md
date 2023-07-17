@@ -116,7 +116,7 @@ Internet* _internet;
 The IsActive() call simply returns true if the susbsytem exists in a list of active subsystems. 
 
 <h3>Plugin Startup</h3>
-Each plugin config can add dependencies on subsytems being available before starting. This is achieved with the following sort of entry in the plugin config file:
+Each plugin config can add dependencies on subsytems being available before starting. This may be achieved with the following sort of entry in the plugin config file:
 
 ```json
         "precondition":[
