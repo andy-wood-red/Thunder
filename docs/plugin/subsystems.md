@@ -69,7 +69,9 @@ void TestPlugin::Initialize(PluginHost::IShell* service) {
 ```
 
 The Get() API call will return a type consistent with the subsystem type passed as a parameter for example if the type was INTERNET:
-'''cpp
+
+```cpp
+// returns pointer to Internet class
 Internet* _internet;
 
 // where
@@ -109,7 +111,8 @@ Internet* _internet;
             string _ipAddress;
         };
 // All types defined in Thunder/Source/WPEFramework/SystemInfo.h
-'''
+
+```
 
 
 <h3>Plugin Startup</h3>
