@@ -145,6 +145,10 @@ The Susbsystem string format and supported susbsytems to add as preconditions:
 ```
 <h3>Event Notification</h3>
 
-Changes to subsystems are notified to interested parties which have registered using:...
-TBC
+Changes to subsystems are notified to interested parties which have registered using:
 
+```cpp
+        virtual void Register(ISubSystem::INotification* notification) = 0;
+        virtual void Unregister(ISubSystem::INotification* notification) = 0;
+```
+An implementation (or implementations) of the Updated() method should then be called for that subsystem, where appropriate handler code can process the updates.
