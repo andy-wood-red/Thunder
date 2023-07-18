@@ -143,5 +143,8 @@ The Susbsystem string format and supported susbsytems to add as preconditions:
         STREAMING, _TXT("Streaming")
         BLUETOOTH, _TXT("Bluetooth")       
 ```
+<h3>Event Notification</h3>
 
+Changes to subsystems are notified to interested parties which have registered using:...
+TBC
 
