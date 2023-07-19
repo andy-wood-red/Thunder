@@ -6,42 +6,36 @@ Thunder provides "Subsystems" which are abstract categories of functionality (Ne
 
 <h3>Supported SubSystems</h3>
 
-Thunder supports the following subsystems which are enumerated in the header file *ISubSystem.h*:
+Thunder supports the following subsystems (enumerated in *ISubSystem.h*):
 
-```cpp
-        enum subsystem : uint32_t {
-            PLATFORM = 0, // platform is available.
-            SECURITY, // A security system can validate external requests (JSONRPC/WebRequest)
-            NETWORK, // Network connectivity has been established.
-            IDENTIFIER, // System identification has been accomplished.
-            GRAPHICS, // Graphics screen EGL is available.
-            INTERNET, // Network connectivity to the outside world has been established.
-            LOCATION, // Location of the device has been set.
-            TIME, // Time has been synchronized.
-            PROVISIONING, // Provisioning information is available.
-            DECRYPTION, // Decryption functionality is available.
-            WEBSOURCE, // Content exposed via a local web server is available.
-            STREAMING, // Content can be streamed.
-            BLUETOOTH, // The bluetooth subsystem is up and running.
-            END_LIST,
-
-            // Also define a "negative" value.
-            NEGATIVE_START = 0x80000000,
-            NOT_PLATFORM = NEGATIVE_START, // platform is NOT available.
-            NOT_SECURITY, // A security system can validate external requests (JSONRPC/WebRequest)
-            NOT_NETWORK, // Network connectivity has NOT been established.
-            NOT_IDENTIFIER, // System identification has NOT been accomplished.
-            NOT_GRAPHICS, // Graphics screen EGL is NOT available.
-            NOT_INTERNET, // Network connectivity to the outside world has been established.
-            NOT_LOCATION, // Location of the device has NOT been set.
-            NOT_TIME, // Time has been NOT synchronized.
-            NOT_PROVISIONING, // Provisioning information is NOT available.
-            NOT_DECRYPTION, // Decryption functionality is NOT available.
-            NOT_WEBSOURCE, // Content exposed via a local web server is NOT available.
-            NOT_STREAMING, // Content can NOT be streamed.
-            NOT_BLUETOOTH // The Bluetooth communication system is NOT available.
-        };
-```
+| **Subsystem**    | **Description**                                                                    |
+|------------------|------------------------------------------------------------------------------------|
+| PLATFORM         | Platform is available                                                              |
+| SECURITY         | A security system can validate external requests (JSONRPC/WebRequest)              |
+| NETWORK          | Network connectivity has been established.                                         |
+| IDENTIFIER       | System identification has been accomplished.                                       |
+| GRAPHICS         | Graphics screen EGL is available.                                                  |
+| INTERNET         | Network connectivity to the outside world has been established.                    |
+| LOCATION         | Location of the device has been set.                                               |
+| TIME             | Time has been synchronized.                                                        |
+| PROVISIONING     | Provisioning information is available.                                             |
+| DECRYPTION       | Decryption functionality is available.                                             |
+| WEBSOURCE        | Content exposed via a local web server is available.                               |
+| STREAMING        | Content can be streamed.                                                           |
+| BLUETOOTH        | The Bluetooth subsystem is up and running.                                         |
+| NOT_PLATFORM     | The platform is NOT available.                                                     |
+| NOT_SECURITY     | No security system is available to validate external requests (JSONRPC/WebRequest) |
+| NOT_NETWORK      | Network connectivity has NOT been established.                                     |
+| NOT_IDENTIFIER   | System identification has NOT been accomplished.                                   |
+| NOT_GRAPHICS     | Graphics screen EGL is NOT available.                                              |
+| NOT_INTERNET     | Network connectivity to the outside world has been established.                    |
+| NOT_LOCATION     | Location of the device has NOT been set.                                           |
+| NOT_TIME         | Time has been NOT synchronized.                                                    |
+| NOT_PROVISIONING | Provisioning information is NOT available.                                         |
+| NOT_DECRYPTION   | Decryption functionality is NOT available.                                         |
+| NOT_WEBSOURCE    | Content exposed via a local web server is NOT available.                           |
+| NOT_STREAMING    | Content can NOT be streamed.                                                       |
+| NOT_BLUETOOTH    | The Bluetooth communication system is NOT available.                               |
 
 
 <h3>SubSystem Plugin Interface - to set and get</h3>
