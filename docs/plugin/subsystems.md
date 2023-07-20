@@ -40,13 +40,22 @@ Thunder supports the following subsystems (enumerated in *ISubSystem.h*):
 
 <h3>Checking and Marking Subsystems</h3>
 
-The plugin supports 3 COM-RPC methods that can be used to check and mark subsystems, these are:
+The plugin supports both JSON and COM RPC methods.
+
+There are 3 COM-RPC methods that can be used to check and mark subsystems, these are:
 
 ```cpp
         // Events setter and getters.
         virtual void Set(const subsystem type, Core::IUnknown* information) = 0;
         virtual const Core::IUnknown* Get(const subsystem type) const = 0;
         virtual bool IsActive(const subsystem type) const = 0;
+```
+
+There are 2 JSON-RPC methods which are:
+
+```
+activate
+deactivate
 ```
 
 <h4>Marking a Subsytem as Available/Unavailable</h4>
