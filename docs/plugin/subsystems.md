@@ -28,7 +28,7 @@ Thunder supports the following subsystems (enumerated in *ISubSystem.h*):
 | NOT_NETWORK      | Network connectivity has NOT been established.                                     |
 | NOT_IDENTIFIER   | System identification has NOT been accomplished.                                   |
 | NOT_GRAPHICS     | Graphics screen EGL is NOT available.                                              |
-| NOT_INTERNET     | Network connectivity to the outside world has been established.                    |
+| NOT_INTERNET     | Network connectivity to the outside world has not been established.                |
 | NOT_LOCATION     | Location of the device has NOT been set.                                           |
 | NOT_TIME         | Time has been NOT synchronized.                                                    |
 | NOT_PROVISIONING | Provisioning information is NOT available.                                         |
@@ -38,9 +38,9 @@ Thunder supports the following subsystems (enumerated in *ISubSystem.h*):
 | NOT_BLUETOOTH    | The Bluetooth communication system is NOT available.                               |
 
 
-<h3>SubSystem Plugin Interface - to set and get</h3>
+<h3>Checking and Marking Subsystems</h3>
 
-In order to indicate and check for changes to subsystems, the plugin supports the following COM interface:
+The plugin supports 3 COM-RPC methods that can be used to check and mark subsystems, these are:
 
 ```cpp
         // Events setter and getters.
@@ -49,7 +49,9 @@ In order to indicate and check for changes to subsystems, the plugin supports th
         virtual bool IsActive(const subsystem type) const = 0;
 ```
 
-In order to use these methods they should be used in a way similar to the following:
+<h4>Marking a Subsytem as Available/Unavailable</h4>
+
+In order to mark a subsystem the Set() method may be used in the following manner:
 ```cpp
 void TestPlugin::Initialize(PluginHost::IShell* service) {
     _service = service;
@@ -60,9 +62,14 @@ void TestPlugin::Initialize(PluginHost::IShell* service) {
     }
 }
 ```
-The Set() API call will use the 2nd parameter to pass information specific to that subsystem, further detail on the information required for each subsystem can be found in source code at Thunder/Source/WPEFramework/SystemInfo.h.
 
-The Get() API call will return a type consistent with the subsystem type passed as a parameter for example if the type was INTERNET:
+<h4>Checking Subsytem State</h4>
+
+Checking availability is achieved using the IsAvailable() API call. The IsActive() call simply returns true if the susbsytem exists in a list of active subsystems.
+
+Determining the operational status of a subsystem is then achieved via the Get() method. The Get() method will return an object consistent with the subsystem type passed as a parameter. 
+
+For example if attempting to obtain Internet status:
 
 ```cpp
 // returns pointer to Internet class
@@ -107,10 +114,9 @@ Internet* _internet;
 // All types defined in Thunder/Source/WPEFramework/SystemInfo.h
 
 ```
-The IsActive() call simply returns true if the susbsytem exists in a list of active subsystems. 
 
-<h3>Plugin Startup</h3>
-Each plugin config can add dependencies on subsytems being available before starting. This may be achieved with the following sort of entry in the plugin config file:
+<h3>Plugin Startup Dependencies</h3>
+Every plugin config can add dependencies on subsytems being available before starting. This may be achieved by adding the following sort of entry to each plugin config file:
 
 ```json
         "precondition":[
@@ -118,25 +124,30 @@ Each plugin config can add dependencies on subsytems being available before star
         ]
 ```
 
-Preconditions can also be set in the plugin metadata, see [config](config.md) for more details on plugin config options.
+See [config](config.md) for more details on plugin config options.
+
+Preconditions can also be set in the plugin metadata...
 
 The Susbsystem string format and supported susbsytems to add as preconditions:
 
- ```
-       PLATFORM, _TXT("Platform")
-        NETWORK, _TXT("Network")
-        SECURITY, _TXT("Security")
-        IDENTIFIER, _TXT("Identifier")
-        INTERNET, _TXT("Internet")
-        LOCATION, _TXT("Location")
-        TIME, _TXT("Time")
-        PROVISIONING, _TXT("Provisioning")
-        DECRYPTION, _TXT("Decryption")
-        GRAPHICS, _TXT("Graphics")
-        WEBSOURCE, _TXT("WebSource")
-        STREAMING, _TXT("Streaming")
-        BLUETOOTH, _TXT("Bluetooth")       
-```
+| **Subsystem Type** | **String**                |
+|--------------------|---------------------------|
+| PLATFORM           | "Platform"                |
+| NETWORK            | "Network"                 |
+| SECURITY           | "Security"                |
+| IDENTIFIER         | "Identifier"              |
+| INTERNET           | "Internet"                |
+| LOCATION           | "Location"                |
+| TIME               | "Time"                    |
+| PROVISIONING       | "Provisioning"            |
+| DECRYPTION         | "Decryption"              |
+| GRAPHICS           | "Graphics"                |
+| WEBSOURCE          | "WebSource"               |
+| STREAMING          | "Streaming"               |
+| BLUETOOTH          | "Bluetooth"               |
+|                    |                           |
+
+
 <h3>Event Notification</h3>
 
 Changes to subsystems are notified to interested parties which have registered using:
